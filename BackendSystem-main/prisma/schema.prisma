@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid())
+  name String
+  email String @unique
+  password String
+  role String
+  course String
+  historic String?
+  userProcesses StudentProcesses[]
+  createdProcesses Selection_Process[]
+
+  @@map("users")
+}
+
+model StudentProcesses {
+  id String @id @default(uuid())
+  student User @relation(fields: [studentId], references: [id])
+  studentId String
+  selection_process Selection_Process @relation(fields: [processId], references: [id])
+  processId String
+
+  @@map("student_processes")
+}
+
+model Selection_Process {
+  id String @id @default(uuid())
+  name String
+  description String?
+  startDate DateTime
+  endDate DateTime
+  spots Int
+  scholarships Int
+  course String
+  status String @default("Aberto")
+  whoCreates User @relation(fields: [creatorId], references: [id])
+  creatorId String
+  userProcesses StudentProcesses[]
+
+  @@map("selection_processes")
+}
