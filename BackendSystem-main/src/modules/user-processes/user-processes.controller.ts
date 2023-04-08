@@ -14,6 +14,13 @@ export class UserProcessesController {
   }
 
   @Get()
+  async indexAll(@Headers("authorization") token: string, @Res() res: Response) {
+    const query = await this.userProcessesService.indexAll(token)
+    res.statusCode = query.status;
+    res.json(query).send();
+  }
+
+  @Get()
   async index(@Headers("authorization") token: string, @Res() res: Response) {
     const query = await this.userProcessesService.index(token)
     res.statusCode = query.status;

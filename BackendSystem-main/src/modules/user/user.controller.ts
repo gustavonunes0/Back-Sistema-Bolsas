@@ -5,27 +5,43 @@ import { Response } from 'express';
 
 @Controller('user')
 export class UserController {
-  constructor(private readonly userService: UserService) { }
-  
-  @Post("register")
+  constructor(private readonly userService: UserService) {}
+
+  @Post('register')
   async create(@Body() data: UserDTO, @Res() res: Response) {
-    const query = await this.userService.create(data)
-    res.statusCode = query.status
-    res.json(query).send()
+    const query = await this.userService.create(data);
+    res.statusCode = query.status;
+    res.json(query).send();
   }
 
   @Get()
-  async indexOne(@Headers("authorization") token: string, @Res() res: Response) {
-    if(!token) return res.statusCode = 404, res.json({message: "Token inválido"}).send()
-    const query = await this.userService.indexOne(token)
-    res.statusCode = query.status
-    res.json(query).send()
+  async indexOne(
+    @Headers('authorization') token: string,
+    @Res() res: Response,
+  ) {
+    if (!token)
+      return (
+        (res.statusCode = 404), res.json({ message: 'Token inválido' }).send()
+      );
+    const query = await this.userService.indexOne(token);
+    res.statusCode = query.status;
+    res.json(query).send();
   }
 
-  @Post("login")
+  @Get('list')
+  async indexAll(
+    @Headers('authorization') token: string,
+    @Res() res: Response,
+  ) {
+    const query = await this.userService.indexAll(token);
+    res.statusCode = query.status;
+    res.json(query).send();
+  }
+
+  @Post('login')
   async login(@Body() data: UserDTO, @Res() res: Response) {
-    const query = await this.userService.login(data)
-    res.statusCode = query.status
-    res.json(query).send()
+    const query = await this.userService.login(data);
+    res.statusCode = query.status;
+    res.json(query).send();
   }
 }

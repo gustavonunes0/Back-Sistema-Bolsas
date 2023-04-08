@@ -31,6 +31,21 @@ export class UserService {
     return { status: 201, message: 'Usuário registrado com sucesso!' };
   }
 
+  async indexAll(token: string) {
+    const isAuthorized = this.prisma.user.findFirst({
+      where: {
+        id: token,
+      },
+    });
+
+    if (!isAuthorized || (await isAuthorized).role === 'Estudante')
+      return { status: 401, message: 'Usuário não autorizado.' };
+
+    const users = await this.prisma.user.findMany();
+
+    return { status: 200, message: 'Sucesso ao resgatar ususários', users };
+  }
+
   async indexOne(token: string) {
     const user: UserDTO = await this.prisma.user.findFirst({
       where: {

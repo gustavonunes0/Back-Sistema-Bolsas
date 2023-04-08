@@ -51,4 +51,24 @@ export class ProcessesService {
     return await this.prisma.selection_Process.findMany();
   }
 
+  async close(token: string, processId: string) {
+    const isAuthorized = this.prisma.user.findFirst({
+      where: {
+        id: token
+      }
+    })
+
+    if (!isAuthorized || (await isAuthorized).role === "Estudante") return { status: 401, message: "Usuário não autorizado." }
+
+    await this.prisma.selection_Process.update({
+      where: {
+        id: processId
+      },
+      data: {
+        status: "Fechado"
+      }
+    })
+
+    return {status: 200, message: "Processo fechado com sucesso!"}
+  }
 }

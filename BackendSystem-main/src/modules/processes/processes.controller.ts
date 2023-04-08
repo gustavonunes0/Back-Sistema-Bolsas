@@ -18,4 +18,11 @@ export class ProcessesController {
   async indexAll() {
     return await this.processesService.indexAll()
   }
+
+  @Post("close")
+  async close(@Headers("authorization") token: string, @Headers("processId") processId: string, @Res() res: Response) {
+    const query = await this.processesService.close(token, processId)
+    res.statusCode = query.status;
+    res.json(query).send();
+  }
 }

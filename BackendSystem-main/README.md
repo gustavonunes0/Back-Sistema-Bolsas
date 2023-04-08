@@ -1,11 +1,11 @@
 # Informações:
 - Os parênteses foram adicionados para facilitar a leitura, favor ignorar na hora de consumir as APIs
-- Os valores que possuem a opção default não são opcionais mas o valor será aplicado apenas se não receber as informações necessárias.
+- Os valores que possuem a opção default não são opcionais mas caso não receber a informação necessária, o valor do default será aplicado.
 - O token sempre vai ser o id do usuário.
 
 ## Como rodar:
 - npm install
-- npx prisma migrate dev --name university
+- npx prisma migrate dev --name university(qualquer nome pode ser atríbuido ao invés de "university")
 - npm run build
 - npm run start:prod
 
@@ -14,7 +14,7 @@ localhost:5000 (server local)
 
 ## APIs:
 
-### USER:
+### USUÁRIO:
 
 - [POST]Para criar um usuário é necessário enviar no BODY as seguintes infomações: name, email, password, role(default = Estudante)
 /user/register
