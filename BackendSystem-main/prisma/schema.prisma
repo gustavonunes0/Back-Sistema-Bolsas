@@ -40,7 +40,7 @@ model Selection_Process {
   spots Int
   scholarships Int
   course String
-  status String @default("Aberto")
+  status String @default("Em andamento")
   whoCreates User @relation(fields: [creatorId], references: [id])
   creatorId String
   userProcesses StudentProcesses[]
